@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IProduct } from '../model/product';
+import { IProductList } from '../model/product';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
@@ -12,7 +12,7 @@ export class ProductlistFetchService {
 
   constructor(private http: HttpClient) { }
 
-  fetchProductList(): Observable<IProduct>{
-    return this.http.get<IProduct>(this.productListURL)
+  fetchProductList(): Observable<IProductList>{
+    return this.http.get<IProductList>(this.productListURL)
   }
 }

@@ -1,4 +1,4 @@
-export interface IProduct {
+interface IProduct {
   image: ImageType;
   name: string;
   category: string;
@@ -7,4 +7,8 @@ export interface IProduct {
 
 interface ImageType {
   [index: string]: string;
+}
+
+export interface IProductList {
+  products: IProduct[];
 }
