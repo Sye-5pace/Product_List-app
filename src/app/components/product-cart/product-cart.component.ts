@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
   templateUrl: './product-cart.component.html',
   styleUrl: './product-cart.component.css'
 })
+
 export class ProductCartComponent {
+  cartItems: number = 0;
 
 }
