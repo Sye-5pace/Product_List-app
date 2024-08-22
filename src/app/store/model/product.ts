@@ -5,7 +5,7 @@ export interface IProduct {
   price: number;
 }
 
-interface ImageType {
+export interface ImageType {
   [index: string]: string;
 }
 

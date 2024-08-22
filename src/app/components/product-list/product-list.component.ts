@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { IProduct } from '../../store/model/product';
+import { ImageType, IProduct } from '../../store/model/product';
 import { Observable } from 'rxjs';
 import { ProductsFacadeService } from '../../services/products-facade.service';
 import { CommonModule } from '@angular/common';
+import { ResponsiveImagingService } from '../../services/responsive-imaging.service';
 
 @Component({
   selector: 'app-product-list',
@@ -16,12 +17,18 @@ export class ProductListComponent {
   product$!: Observable<IProduct[]>;
   error$!: Observable<any>;
 
-  constructor(private productFacade: ProductsFacadeService){
+  constructor(private productFacade: ProductsFacadeService,
+    private imageService: ResponsiveImagingService
+  ){
     this.product$ = this.productFacade.products$;
     this.error$ = this.productFacade.error$;
   }
 
   ngOnInit(): void{
     this.productFacade.loadProducts();
+  }
+
+  getResponsiveImage(image: ImageType): string{
+    return this.imageService.getResponsiveImaging(image)
   }
 }
