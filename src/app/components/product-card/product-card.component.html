@@ -3,13 +3,15 @@
     @for(product of products; track product.name; let i = $index;) {
       <div class="flex flex-col h-[21.6875rem] gap-y-4">
         <div class="flex flex-col items-center">
-          <img class="rounded-[.5rem]" [ngClass]="{'border-tiamaria border': addTrigger[i]}" [src]="getResponsiveImage(product.image)" alt="product-name">
+          <div class="img rounded-[.5rem] overflow-hidden">
+            <img class="" [ngClass]="{'border-tiamaria border': addTrigger[i]}" [src]="getResponsiveImage(product.image)" alt="product-name">
+          </div>
           <div>
             @if(!addTrigger[i]){
               <button class="relative mt-[-1.75rem] rounded-[2rem] py-[.7125rem] px-[1.75rem] bg-[#fff] border flex items-center justify-center gap-[.5rem]"
-                      [ngClass]="triggerHoverState(i)"
-                      (mouseenter)="onMouseEnter(i)" (mouseleave)="onMouseLeave()"
-                      (click)="addCart(i)">
+                  [ngClass]="triggerHoverState(i)"
+                  (mouseenter)="onMouseEnter(i)" (mouseleave)="onMouseLeave()"
+                  (click)="addCart(i)">
                 <img src="../../../assets/images/icon-add-to-cart.svg" alt="cart-icon">
                 <p class="text-[0.875rem] font-semibold">Add to Cart</p>
               </button>
