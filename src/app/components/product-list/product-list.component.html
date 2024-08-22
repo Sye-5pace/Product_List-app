@@ -1,1 +1,11 @@
-<p>product-list works!</p>
+<section>
+  @if (product$ | async; as products) {
+    @for(product of products; track product.name; let i = $index;) {
+      <div>
+        <img [src]="product.image['desktop']" alt="">
+      </div>
+    }
+  } @else {
+    <p>Loading products...</p>
+  }
+</section>

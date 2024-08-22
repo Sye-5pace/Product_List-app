@@ -10,7 +10,7 @@ import { IProduct } from '../store/model/product';
 })
 
 export class ProductsFacadeService {
-  product$: Observable<IProduct[]> = this.store.select(selectProducts);
+  products$: Observable<IProduct[]> = this.store.select(selectProducts);
   error$: Observable<any> = this.store.select(selectProductError);
 
   constructor(private store: Store) { }
