@@ -1,0 +1,4 @@
+button{
+  transition: border-color background-color 0.5s ease-in;
+}
+
