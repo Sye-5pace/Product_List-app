@@ -1,5 +1,5 @@
-import { IProductList } from '../model/product'
+import { IProduct } from './model/product'
 
 export interface ProductList{
-  products: IProductList;
+  products: IProduct[];
 }
