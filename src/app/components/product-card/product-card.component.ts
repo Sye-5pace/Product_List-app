@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProductsFacadeService } from '../../services/products-facade.service';
 import { ResponsiveImagingService } from '../../services/responsive-imaging.service';
-import { IProduct, ImageType } from '../../store/model/product';
+import { CartItem, IProduct, ImageType } from '../../store/model/product';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,11 +10,13 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './product-card.component.html',
-  styleUrl: './product-card.component.css'
+  styleUrls: ['./product-card.component.css']
 })
+
 export class ProductCardComponent {
   product$!: Observable<IProduct[]>;
   error$!: Observable<any>;
+  carts$!: Observable<CartItem[]>;
   hoverIndex!: number | null;
   addTrigger: boolean[] = [];
   cartCounts: number[] = [];
@@ -29,8 +31,9 @@ export class ProductCardComponent {
     this.productFacade.loadProducts();
     this.product$.subscribe((products) => {
       this.addTrigger = new Array(products.length).fill(false);
-      this.cartCounts = new Array(products.length).fill(0); // Initialize cart counts for each product
+      this.cartCounts = new Array(products.length).fill(0);
     });
+    this.carts$ = this.productFacade.carts$;
   }
 
   getResponsiveImage(image: ImageType): string {
@@ -45,7 +48,7 @@ export class ProductCardComponent {
     this.hoverIndex = null;
   }
 
-  cartAddTrigger(i: any): void {
+  cartAddTrigger(i: number): void {
     this.addTrigger[i] = !this.addTrigger[i];
   }
 
@@ -56,17 +59,18 @@ export class ProductCardComponent {
     };
   }
 
-  addCart(i: number): void {
+  addCart(i: number, product: IProduct): void {
     this.cartCounts[i]++;
-    this.addTrigger[i] = true;  
+    this.productFacade.addToCart({
+      name: product.name,
+      price: product.price,
+      thumbnail: product.image['thumbnail'],
+      quantity: this.cartCounts[i]
+    });
+    this.addTrigger[i] = false;
   }
 
-  removeCart(i: number): void {
-    if (this.cartCounts[i] > 0) {
-      this.cartCounts[i]--;
-    }
-    if (this.cartCounts[i] === 0) {
-      this.addTrigger[i] = false;
-    }
-  }
+  
+
+
 }

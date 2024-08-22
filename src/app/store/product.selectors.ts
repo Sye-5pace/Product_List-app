@@ -12,3 +12,8 @@ export const selectProductError = createSelector(
   selectProductState,
   (state: ProductsState) => state.error
 )
+
+export const selectCart = createSelector(
+  selectProductState,
+  (state: ProductsState) => state.cart
+);

@@ -3,27 +3,28 @@
     @for(product of products; track product.name; let i = $index;) {
       <div class="flex flex-col h-[21.6875rem] gap-y-4">
         <div class="flex flex-col items-center">
-          <div class="img rounded-[.5rem] overflow-hidden">
-            <img class="" [ngClass]="{'border-tiamaria border': addTrigger[i]}" [src]="getResponsiveImage(product.image)" alt="product-name">
+          <div class="rounded-[.5rem] overflow-hidden" [ngClass]="{'border-tiamaria border': addTrigger[i]}">
+            <img class=""  [src]="getResponsiveImage(product.image)" alt="product-name">
           </div>
-          <div>
+          <div (click)="cartAddTrigger(i)">
             @if(!addTrigger[i]){
               <button class="relative mt-[-1.75rem] rounded-[2rem] py-[.7125rem] px-[1.75rem] bg-[#fff] border flex items-center justify-center gap-[.5rem]"
                   [ngClass]="triggerHoverState(i)"
-                  (mouseenter)="onMouseEnter(i)" (mouseleave)="onMouseLeave()"
-                  (click)="addCart(i)">
+                  (mouseenter)="onMouseEnter(i)"
+                   (mouseleave)="onMouseLeave()"
+                  >
                 <img src="../../../assets/images/icon-add-to-cart.svg" alt="cart-icon">
                 <p class="text-[0.875rem] font-semibold">Add to Cart</p>
               </button>
             } @else {
               <div class="relative w-full mt-[-1.75rem] rounded-[2rem] py-[.7125rem] px-[.75rem] bg-tiamaria flex items-center justify-between gap-8">
-                <button (click)="removeCart(i)">
+                <button >
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 stroke-[#fff]">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
                 </button>
                 <p class="text-[0.875rem] font-semibold text-[#fff]">{{ cartCounts[i] }}</p>
-                <button (click)="addCart(i)">
+                <button (click)="addCart(i,product)">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 stroke-[#fff]">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>

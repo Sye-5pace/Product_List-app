@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { loadProduct } from '../store/products.actions';
-import { selectProducts, selectProductError } from '../store/product.selectors';
-import { IProduct } from '../store/model/product';
+import { loadProduct,addToCart } from '../store/products.actions';
+import { selectProducts, selectProductError, selectCart } from '../store/product.selectors';
+import { CartItem, IProduct } from '../store/model/product';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +12,18 @@ import { IProduct } from '../store/model/product';
 export class ProductsFacadeService {
   products$: Observable<IProduct[]> = this.store.select(selectProducts);
   error$: Observable<any> = this.store.select(selectProductError);
+  carts$: Observable<CartItem[]> = this.store.select(selectCart);
 
   constructor(private store: Store) { }
 
   loadProducts(): void{
     this.store.dispatch(loadProduct());
   }
+
+  addToCart(cart:CartItem):void{
+    this.store.dispatch(addToCart({cart}));
+    console.log(cart);
+  }
 }
+
+
