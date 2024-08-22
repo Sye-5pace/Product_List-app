@@ -16,6 +16,7 @@ import { ResponsiveImagingService } from '../../services/responsive-imaging.serv
 export class ProductListComponent {
   product$!: Observable<IProduct[]>;
   error$!: Observable<any>;
+  hoverIndex!: number | null;
 
   constructor(private productFacade: ProductsFacadeService,
     private imageService: ResponsiveImagingService
@@ -30,5 +31,21 @@ export class ProductListComponent {
 
   getResponsiveImage(image: ImageType): string{
     return this.imageService.getResponsiveImaging(image)
+  }
+
+  onMouseEnter(index: number): void {
+    this.hoverIndex = index;
+  }
+
+  onMouseLeave(): void {
+    this.hoverIndex = null;
+  }
+
+  triggerHoverState(i: number | null){
+    if(this.hoverIndex === i){
+      return 'border-tiamaria text-tiamaria';
+    }else{
+      return 'border-pharlap text-graphite'
+    }
   }
 }

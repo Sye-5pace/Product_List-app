@@ -4,9 +4,9 @@
       <div class="flex flex-col h-[21.6875rem] gap-y-4">
         <div class="flex flex-col items-center">
           <img class="rounded-[.5rem] " [src]="getResponsiveImage(product.image)" alt="product-name">
-          <button class="relative mt-[-1.75rem] rounded-[2rem] py-[.7125rem] px-[1.75rem] bg-[#fff] border-pharlap border flex items-center justify-center gap-[.5rem]">
+          <button class="relative mt-[-1.75rem] rounded-[2rem] py-[.7125rem] px-[1.75rem] bg-[#fff]  border flex items-center justify-center gap-[.5rem]" [ngClass]="triggerHoverState(i)" (mouseenter)="onMouseEnter(i)" (mouseleave)="onMouseLeave()">
             <img src="../../../assets/images/icon-add-to-cart.svg" alt="cart-icon">
-            <p class="text-[0.875rem] font-semibold text-graphite">Add to Cart</p>
+            <p class="text-[0.875rem] font-semibold ">Add to Cart</p>
           </button>
         </div>
         <div class="flex flex-col gap-y-1">
