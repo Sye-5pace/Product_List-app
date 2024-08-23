@@ -16,13 +16,19 @@ import { CommonModule } from '@angular/common';
 
 export class ProductCartComponent implements OnInit , AfterViewInit {
   cartLength: number = 0;
+  cartTotal: number = 0;
   carts$: Observable<CartItem[]> = this.productsFacade.carts$;
 
   constructor(private productsFacade: ProductsFacadeService) {}
 
   ngOnInit(): void {
-    this.productsFacade.carts$.subscribe((cart) => {
-      this.cartLength = cart.length;
+    this.productsFacade.carts$.subscribe((cartItems) => {
+      this.cartLength = cartItems.reduce((total, item) =>
+        total + item.quantity, 0
+      )
+      this.cartTotal = cartItems.reduce((total,item) =>
+        total + (item.price * item. quantity),0
+      )
     })
   }
 

@@ -1,6 +1,7 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import anime from 'animejs/lib/anime.es.js';
 import { ProductsFacadeService } from '../../services/products-facade.service';
 import { ResponsiveImagingService } from '../../services/responsive-imaging.service';
@@ -13,14 +14,14 @@ import { CartItem, IProduct, ImageType } from '../../store/model/product';
   templateUrl: './product-card.component.html',
   styleUrls: ['./product-card.component.css']
 })
-
-export class ProductCardComponent implements OnInit, AfterViewInit {
+export class ProductCardComponent implements OnInit, AfterViewInit, OnDestroy {
   product$!: Observable<IProduct[]>;
   error$!: Observable<any>;
   carts$!: Observable<CartItem[]>;
   hoverIndex!: number | null;
   addTrigger: boolean[] = [];
   cartCounts: number[] = [];
+  private unsubscribe$ = new Subject<void>();
 
   constructor(private productFacade: ProductsFacadeService,
               private imageService: ResponsiveImagingService) {
@@ -30,7 +31,7 @@ export class ProductCardComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.productFacade.loadProducts();
-    this.product$.subscribe((products) => {
+    this.product$.pipe(takeUntil(this.unsubscribe$)).subscribe((products) => {
       this.addTrigger = new Array(products.length).fill(false);
       this.cartCounts = new Array(products.length).fill(0);
     });
@@ -38,7 +39,7 @@ export class ProductCardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.product$.subscribe((products) => {
+    this.product$.pipe(takeUntil(this.unsubscribe$)).subscribe((products) => {
       setTimeout(() => {
         const elements = document.querySelectorAll('.card-container .card');
         if (elements.length > 0) {
@@ -52,6 +53,11 @@ export class ProductCardComponent implements OnInit, AfterViewInit {
         }
       }, 0);
     });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   getResponsiveImage(image: ImageType): string {
@@ -77,15 +83,9 @@ export class ProductCardComponent implements OnInit, AfterViewInit {
     };
   }
 
-  addCart(i: number, product: IProduct): void {
+  addCart(i: number ): void {
     this.cartCounts[i]++;
-    this.productFacade.addToCart({
-      name: product.name,
-      price: product.price,
-      thumbnail: product.image['thumbnail'],
-      quantity: this.cartCounts[i]
-    });
+    this.productFacade.addToCart(i, 1)
     this.addTrigger[i] = false;
   }
-
 }
