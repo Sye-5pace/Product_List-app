@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
+import anime from 'animejs/lib/anime.es.js';
 import { ProductsFacadeService } from '../../services/products-facade.service';
 import { ResponsiveImagingService } from '../../services/responsive-imaging.service';
 import { CartItem, IProduct, ImageType } from '../../store/model/product';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product-card',
@@ -13,7 +14,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./product-card.component.css']
 })
 
-export class ProductCardComponent {
+export class ProductCardComponent implements OnInit, AfterViewInit {
   product$!: Observable<IProduct[]>;
   error$!: Observable<any>;
   carts$!: Observable<CartItem[]>;
@@ -27,13 +28,30 @@ export class ProductCardComponent {
     this.error$ = this.productFacade.error$;
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.productFacade.loadProducts();
     this.product$.subscribe((products) => {
       this.addTrigger = new Array(products.length).fill(false);
       this.cartCounts = new Array(products.length).fill(0);
     });
     this.carts$ = this.productFacade.carts$;
+  }
+
+  ngAfterViewInit() {
+    this.product$.subscribe((products) => {
+      setTimeout(() => {
+        const elements = document.querySelectorAll('.card-container .card');
+        if (elements.length > 0) {
+          anime({
+            targets: elements,
+            translateX: [-400, 0],
+            opacity: [0, 1],
+            easing: 'easeInOutQuad',
+            delay: anime.stagger(300),
+          });
+        }
+      }, 0);
+    });
   }
 
   getResponsiveImage(image: ImageType): string {
@@ -69,8 +87,5 @@ export class ProductCardComponent {
     });
     this.addTrigger[i] = false;
   }
-
-  
-
 
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ProductPageComponent } from './view/product-page/product-page.component';
+import anime from 'animejs/lib/anime.es.js';
 
 @Component({
   selector: 'app-root',
@@ -11,5 +12,7 @@ import { ProductPageComponent } from './view/product-page/product-page.component
 
 export class AppComponent {
   title = 'Product-List-app';
+
   
+
 }
