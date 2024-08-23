@@ -88,4 +88,12 @@ export class ProductCardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.productFacade.addToCart(i, 1)
     this.addTrigger[i] = false;
   }
+
+  removeCart(i: number): void{
+    if (this.cartCounts[i] > 0){
+      this.cartCounts[i]--;
+      this.productFacade.addToCart(i, -1);
+      this.addTrigger[i] = false;
+    }
+  }
 }

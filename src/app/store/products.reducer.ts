@@ -1,6 +1,5 @@
-// products.reducer.ts
 import { createReducer, on } from '@ngrx/store';
-import { loadProduct, loadProductFailure, loadProductSuccess, addToCart } from './products.actions';
+import { loadProduct, loadProductFailure, loadProductSuccess, addToCart, removeFromCart } from './products.actions';
 import { CartItem, IProduct, ProductsState } from './model/product';
 
 export const initialState: ProductsState = {
@@ -47,7 +46,30 @@ export const productsReducer = createReducer(
       ...state,
       cart: updatedCart,
     };
+  }),
+  on(removeFromCart,(state,{index , quantity}) => {
+    const existingCartItemIndex = state.cart.findIndex((item) => item.name === state.products[index].name);
+    let updatedCart;
+    if(existingCartItemIndex !== index) {
+      const item = state.cart[existingCartItemIndex];
+      if(item.quantity <= quantity) {
+        updatedCart = state.cart.filter((_,idx) => idx !== existingCartItemIndex);
+      }else {
+        updatedCart = state.cart.map((item,idx) =>
+          idx === existingCartItemIndex?
+           {...item, quantity: item.quantity - quantity}
+            : item
+        )
+      }
+    }else {
+      updatedCart = state.cart
+    }
+    return {
+     ...state,
+      cart: updatedCart,
+    };
   })
+
 );
 
 

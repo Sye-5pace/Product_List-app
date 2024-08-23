@@ -6,3 +6,4 @@ export const loadProductSuccess = createAction('[Product List] Load Products Suc
 export const loadProductFailure = createAction('[Product List] Load Products Failure',props<{ error: Error }>())
 
 export const addToCart = createAction('[Add to Cart] Add to Cart', props<{ index: number; quantity: number }>());
+export const removeFromCart = createAction('[Remove from Cart] Remove from Cart', props<{index: number; quantity:number}>())
