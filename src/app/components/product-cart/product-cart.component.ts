@@ -1,3 +1,4 @@
+import { ModalService } from './../../services/modal.service';
 import { Component,OnInit,AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import anime from 'animejs/lib/anime.es.js';
@@ -18,8 +19,11 @@ export class ProductCartComponent implements OnInit , AfterViewInit {
   cartLength: number = 0;
   cartTotal: number = 0;
   carts$: Observable<CartItem[]> = this.productsFacade.carts$;
+  confirmModal: boolean = false;
 
-  constructor(private productsFacade: ProductsFacadeService) {}
+  constructor(private productsFacade: ProductsFacadeService
+    , private modalService: ModalService
+  ) {}
 
   ngOnInit(): void {
     this.productsFacade.carts$.subscribe((cartItems) => {
@@ -30,6 +34,10 @@ export class ProductCartComponent implements OnInit , AfterViewInit {
         total + (item.price * item. quantity),0
       )
     })
+
+    this.modalService.modalState$.subscribe(
+      state => this.confirmModal = state
+    )
   }
 
   ngAfterViewInit(): void {
@@ -45,5 +53,9 @@ export class ProductCartComponent implements OnInit , AfterViewInit {
 
   deleteCartItem(index: number){
     this.productsFacade.deleteCartItem(index);
+  }
+
+  openModal(){
+    this.modalService.openModal()
   }
 }

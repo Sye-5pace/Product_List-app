@@ -1,0 +1,40 @@
+<main  [class]="confirmModal ? 'flex':'hidden'" class=" absolute inset-0 z-10 bg-[#000] bg-opacity-50 backdrop-blur-sm justify-center items-center">
+  <section class="bg-[#fff] p-10 w-[30rem] min-h-[18.6875rem] rounded-[0.75rem] flex flex-col gap-y-8">
+    <div class="flex flex-col gap-y-6">
+      <img class="size-[3rem]" src="../../../assets/images/icon-order-confirmed.svg" alt="confirm-icon"/>
+      <div>
+        <h1 class="font-bold text-graphite text-[2.5rem]">Order Confirmed</h1>
+        <p class="text-beaver ">We hope you enjoy your food!</p>
+      </div>
+    </div>
+    <div class="rounded-[.5rem] bg-fantasy p-6 flex flex-col gap-y-6">
+      @if(carts$ | async; as cartsConfirmed){
+        <div class="flex flex-col gap-y-6">
+          @for(cart of cartsConfirmed; track cart.name; let i = $index){
+            <div class="border-b border-b-dawnpink pb-4 flex justify-between items-center">
+              <div class="flex gap-3">
+                <img class="rounded-[.25rem] size-[3rem]" [src]="cart.thumbnail" alt="cart-image"/>
+                <div>
+                  <h4>Classic Tiramisu</h4>
+                  <div class="flex gap-3">
+                    <span class="font-bold text-tiamaria">{{ cart.quantity }}x</span>
+                    <span class="text-pharlap text-[.875rem]">{{ cart.price }}</span>
+                  </div>
+                </div>
+              </div>
+              <p class="text-[1rem] font-semibold text-graphite">{{cart.quantity * cart.price  | currency}}</p>
+            </div>
+          }
+        </div>
+      }
+      <div class="flex justify-between text-graphite">
+        <p class="text-[.75rem]">Order Total</p>
+        <h2>{{ cartTotal | currency}}</h2>
+      </div>
+    </div>
+    <button (click)="startNewOrder()"  class=" w-full rounded-[2rem] text-[#fff] bg-tiamaria  flex justify-center items-center h-[2.5rem]">
+      Start New Order
+    </button>
+  </section>
+</main>
+
