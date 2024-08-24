@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { loadProduct, addToCart, removeFromCart, deleteCartItem } from '../store/products.actions';
+import { loadProduct, addToCart, removeFromCart, deleteCartItem, startNewOrder } from '../store/products.actions';
 import { selectProducts, selectProductError, selectCart } from '../store/product.selectors';
 import { CartItem, IProduct, ProductsState } from '../store/model/product';
 
@@ -30,5 +30,8 @@ export class ProductsFacadeService {
 
   deleteCartItem(index: number): void {
     this.store.dispatch(deleteCartItem({ index }));
+  }
+  startNewOrder(): void {
+    this.store.dispatch(startNewOrder());
   }
 }

@@ -8,3 +8,4 @@ export const loadProductFailure = createAction('[Product List] Load Products Fai
 export const addToCart = createAction('[Add to Cart] Add to Cart', props<{ index: number; quantity: number }>());
 export const removeFromCart = createAction('[Remove from Cart] Remove from Cart', props<{index: number; quantity:number}>());
 export const deleteCartItem = createAction('[Cart] Delete Cart Item',props<{ index: number }>());
+export const startNewOrder = createAction('[Cart] Start New Order');

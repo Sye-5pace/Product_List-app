@@ -34,8 +34,10 @@ export class ConfirmModalComponent {
     })
   }
 
-  startNewOrder(){
-    this.modalService.closeModal()
+  startNewOrder() {
+    localStorage.clear();
+    this.productsFacade.startNewOrder();
+    this.modalService.closeModal();
   }
 
 }
