@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { loadProduct, loadProductFailure, loadProductSuccess, addToCart, removeFromCart } from './products.actions';
+import { loadProduct, loadProductFailure, loadProductSuccess, addToCart, removeFromCart, deleteCartItem } from './products.actions';
 import { CartItem, IProduct, ProductsState } from './model/product';
 
 export const initialState: ProductsState = {
@@ -68,8 +68,13 @@ export const productsReducer = createReducer(
      ...state,
       cart: updatedCart,
     };
+  }),
+  on(deleteCartItem,(state,{index}) => {
+    return {
+      ...state,
+      cart: state.cart.filter((_,idx) => idx!== index)
+    }
   })
-
 );
 
 

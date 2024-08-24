@@ -23,19 +23,36 @@ export class ProductCardComponent implements OnInit, AfterViewInit, OnDestroy {
   cartCounts: number[] = [];
   private unsubscribe$ = new Subject<void>();
 
-  constructor(private productFacade: ProductsFacadeService,
-              private imageService: ResponsiveImagingService) {
-    this.product$ = this.productFacade.products$;
-    this.error$ = this.productFacade.error$;
-  }
+  constructor(
+    private productFacade: ProductsFacadeService,
+    private imageService: ResponsiveImagingService
+  ) {}
 
   ngOnInit() {
+    this.product$ = this.productFacade.products$;
+    this.error$ = this.productFacade.error$;
+
     this.productFacade.loadProducts();
+
+    // Initialize addTrigger and cartCounts arrays based on product count
     this.product$.pipe(takeUntil(this.unsubscribe$)).subscribe((products) => {
       this.addTrigger = new Array(products.length).fill(false);
       this.cartCounts = new Array(products.length).fill(0);
     });
+
+    // Track changes in cart and update cartCounts accordingly
     this.carts$ = this.productFacade.carts$;
+    this.carts$.pipe(takeUntil(this.unsubscribe$)).subscribe((cartItems) => {
+      // Reset cartCounts for all products first
+      this.cartCounts = this.cartCounts.map(() => 0);
+
+      cartItems.forEach((cartItem) => {
+        const productIndex = this.getProductIndexByName(cartItem.name);
+        if (productIndex !== -1) {
+          this.cartCounts[productIndex] = cartItem.quantity;
+        }
+      });
+    });
   }
 
   ngAfterViewInit() {
@@ -83,17 +100,26 @@ export class ProductCardComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
-  addCart(i: number ): void {
+  addCart(i: number): void {
     this.cartCounts[i]++;
-    this.productFacade.addToCart(i, 1)
+    this.productFacade.addToCart(i, 1);
     this.addTrigger[i] = false;
   }
 
-  removeCart(i: number): void{
-    if (this.cartCounts[i] > 0){
+  removeCart(i: number): void {
+    if (this.cartCounts[i] > 0) {
       this.cartCounts[i]--;
       this.productFacade.addToCart(i, -1);
       this.addTrigger[i] = false;
     }
+  }
+
+  // Utility method to get product index by name
+  private getProductIndexByName(productName: string): number {
+    let productIndex = -1;
+    this.product$.pipe(takeUntil(this.unsubscribe$)).subscribe((products) => {
+      productIndex = products.findIndex((product) => product.name === productName);
+    });
+    return productIndex;
   }
 }

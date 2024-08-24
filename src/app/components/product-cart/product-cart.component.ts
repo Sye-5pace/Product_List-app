@@ -42,4 +42,8 @@ export class ProductCartComponent implements OnInit , AfterViewInit {
       delay: 500
     })
   }
+
+  deleteCartItem(index: number){
+    this.productsFacade.deleteCartItem(index);
+  }
 }
