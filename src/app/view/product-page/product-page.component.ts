@@ -2,11 +2,12 @@ import { AfterViewInit, Component } from '@angular/core';
 import { ProductListComponent } from './../../components/product-list/product-list.component';
 import { ProductCartComponent } from "../../components/product-cart/product-cart.component";
 import anime from 'animejs/lib/anime.es.js';
+import { ConfirmModalComponent } from "../../components/confirm-modal/confirm-modal.component";
 
 @Component({
   selector: 'app-product-page',
   standalone: true,
-  imports: [ProductListComponent, ProductCartComponent],
+  imports: [ProductListComponent, ProductCartComponent, ConfirmModalComponent],
   templateUrl: './product-page.component.html',
   styleUrl: './product-page.component.css'
 })

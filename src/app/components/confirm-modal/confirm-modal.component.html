@@ -1,4 +1,4 @@
-<main  [class]="confirmModal ? 'flex':'hidden'" class=" absolute inset-0 z-10 bg-[#000] bg-opacity-50 backdrop-blur-sm justify-center items-center">
+<div [class]="confirmModal ? 'flex':'hidden'" class="border-2 fixed inset-0 z-10 bg-[#000] bg-opacity-50 backdrop-blur-sm justify-center items-center">
   <section class="bg-[#fff] p-10 w-[30rem] min-h-[18.6875rem] rounded-[0.75rem] flex flex-col gap-y-8">
     <div class="flex flex-col gap-y-6">
       <img class="size-[3rem]" src="../../../assets/images/icon-order-confirmed.svg" alt="confirm-icon"/>
@@ -16,9 +16,9 @@
                 <img class="rounded-[.25rem] size-[3rem]" [src]="cart.thumbnail" alt="cart-image"/>
                 <div>
                   <h4>Classic Tiramisu</h4>
-                  <div class="flex gap-3">
+                  <div class="flex gap-2 items-center">
                     <span class="font-bold text-tiamaria">{{ cart.quantity }}x</span>
-                    <span class="text-pharlap text-[.875rem]">{{ cart.price }}</span>
+                    <span class="text-pharlap text-[.875rem]">{{ cart.price | currency }}</span>
                   </div>
                 </div>
               </div>
@@ -36,5 +36,5 @@
       Start New Order
     </button>
   </section>
-</main>
+</div>
 

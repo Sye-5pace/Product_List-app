@@ -11,9 +11,9 @@
   } @else if(cartLength){
     @if(carts$ | async; as carts){
       <div class="flex flex-col gap-y-6 w-full">
-        <div class="flex flex-col gap-y-3">
+        <div   class="flex flex-col gap-y-3"   >
           @for(cart of carts; track cart.name; let i = $index){
-            <div class="flex justify-between border-b border-fantasy pb-2">
+            <div    class=".cart-item flex justify-between border-b border-fantasy pb-2 cursor-move">
               <div class="flex flex-col justify-between text-[.875rem]">
                 <p class="text-graphite ">{{ cart.name }}</p>
                 <div class="flex gap-3">

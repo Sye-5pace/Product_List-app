@@ -9,3 +9,7 @@ export const addToCart = createAction('[Add to Cart] Add to Cart', props<{ index
 export const removeFromCart = createAction('[Remove from Cart] Remove from Cart', props<{index: number; quantity:number}>());
 export const deleteCartItem = createAction('[Cart] Delete Cart Item',props<{ index: number }>());
 export const startNewOrder = createAction('[Cart] Start New Order');
+export const updateCartOrder = createAction(
+  '[Cart] Update Cart Order',
+  props<{ previousIndex: number; newIndex: number }>()
+);

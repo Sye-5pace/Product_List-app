@@ -1,16 +1,16 @@
-import { ModalService } from './../../services/modal.service';
 import { Component,OnInit,AfterViewInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import anime from 'animejs/lib/anime.es.js';
+import { ModalService } from './../../services/modal.service';
 import { ProductsFacadeService } from '../../services/products-facade.service';
 import { CartItem } from '../../store/model/product';
 import { CommonModule } from '@angular/common';
 
-
 @Component({
   selector: 'app-product-cart',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,],
   templateUrl: './product-cart.component.html',
   styleUrl: './product-cart.component.css'
 })
@@ -20,6 +20,7 @@ export class ProductCartComponent implements OnInit , AfterViewInit {
   cartTotal: number = 0;
   carts$: Observable<CartItem[]> = this.productsFacade.carts$;
   confirmModal: boolean = false;
+  carts: CartItem[] = [];
 
   constructor(private productsFacade: ProductsFacadeService
     , private modalService: ModalService
@@ -33,6 +34,7 @@ export class ProductCartComponent implements OnInit , AfterViewInit {
       this.cartTotal = cartItems.reduce((total,item) =>
         total + (item.price * item. quantity),0
       )
+      this.carts = cartItems;
     })
 
     this.modalService.modalState$.subscribe(
@@ -57,5 +59,18 @@ export class ProductCartComponent implements OnInit , AfterViewInit {
 
   openModal(){
     this.modalService.openModal()
+  }
+
+  onDrop(event: CdkDragDrop<CartItem[], CartItem[], any>): void {
+    this.carts$.pipe(
+      take(1),
+      map(items => items.findIndex(item => item === event.item.data))
+    ).subscribe(previousIndex => {
+      const newIndex = event.currentIndex;
+      if (previousIndex !== -1 && previousIndex !== newIndex) {
+        moveItemInArray(this.carts, previousIndex, newIndex);
+        this.productsFacade.updateCartItemOrder(previousIndex, newIndex);
+      }
+    });
   }
 }

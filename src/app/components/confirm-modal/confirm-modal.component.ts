@@ -39,5 +39,4 @@ export class ConfirmModalComponent {
     this.productsFacade.startNewOrder();
     this.modalService.closeModal();
   }
-
 }

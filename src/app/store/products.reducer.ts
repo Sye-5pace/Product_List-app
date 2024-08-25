@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
-import { loadProduct, loadProductFailure, loadProductSuccess, addToCart, removeFromCart, deleteCartItem, startNewOrder } from './products.actions';
+import { loadProduct, loadProductFailure, loadProductSuccess, addToCart, removeFromCart, deleteCartItem, startNewOrder, updateCartOrder, } from './products.actions';
 import { CartItem, IProduct, ProductsState } from './model/product';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 
 export const initialState: ProductsState = {
   products: [],
@@ -79,6 +80,14 @@ export const productsReducer = createReducer(
     return {
       ...state,
       cart: []
+    };
+  }),
+  on(updateCartOrder, (state, { previousIndex, newIndex }) => {
+    const updatedCartItems = [...state.cart];
+    moveItemInArray(updatedCartItems, previousIndex, newIndex);
+    return {
+      ...state,
+      cartItems: updatedCartItems
     };
   })
 );
