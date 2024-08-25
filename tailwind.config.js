@@ -6,9 +6,9 @@ module.exports = {
 
   theme: {
     screens: {
-      'mobile': {'min':'200px','max':'427px'},
-      'tablet': {'min':'427px','max':'782px'},
-      'laptop': {'min':'782.1px'}
+      'mobile': {'min':'200px','max':'752px'},
+      'tablet': {'min':'768px','max':'1024px'},
+      'laptop': {'min':'1024.1px'}
     },
     fontFamily:{
       'redhat': ['Red Hat Text', 'sans-serif'],
