@@ -1,6 +1,5 @@
 import { Component,OnInit,AfterViewInit } from '@angular/core';
-import { map, Observable, take } from 'rxjs';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import {  Observable } from 'rxjs';
 import anime from 'animejs/lib/anime.es.js';
 import { ModalService } from './../../services/modal.service';
 import { ProductsFacadeService } from '../../services/products-facade.service';
@@ -51,6 +50,24 @@ export class ProductCartComponent implements OnInit , AfterViewInit {
       opacity: [0,1],
       delay: 500
     })
+    anime({
+      targets: '.svg-demo path',
+      strokeDasharray: [anime.setDashoffset, 0],
+      strokeDashoffset: [anime.setDashoffset, 0],
+      duration: 500,
+      easing: 'easeInOutSine',
+      loop: true,
+      delay: anime.stagger(200)
+    });
+    anime({
+      targets: '.svg-demo path',
+      translateY: [
+        { value: -10, duration: 500, easing: 'easeInOutSine' },
+        { value: 0, duration: 500, easing: 'easeInOutSine' }
+      ],
+      loop: true,
+      delay: anime.stagger(100) 
+    });
   }
 
   deleteCartItem(index: number){
@@ -61,16 +78,5 @@ export class ProductCartComponent implements OnInit , AfterViewInit {
     this.modalService.openModal()
   }
 
-  onDrop(event: CdkDragDrop<CartItem[], CartItem[], any>): void {
-    this.carts$.pipe(
-      take(1),
-      map(items => items.findIndex(item => item === event.item.data))
-    ).subscribe(previousIndex => {
-      const newIndex = event.currentIndex;
-      if (previousIndex !== -1 && previousIndex !== newIndex) {
-        moveItemInArray(this.carts, previousIndex, newIndex);
-        this.productsFacade.updateCartItemOrder(previousIndex, newIndex);
-      }
-    });
-  }
+
 }
