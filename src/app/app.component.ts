@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ProductPageComponent } from './view/product-page/product-page.component';
-import anime from 'animejs/lib/anime.es.js';
 import { ConfirmModalComponent } from "./components/confirm-modal/confirm-modal.component";
 
 @Component({
@@ -13,7 +12,5 @@ import { ConfirmModalComponent } from "./components/confirm-modal/confirm-modal.
 
 export class AppComponent {
   title = 'Product-List-app';
-
-
 
 }

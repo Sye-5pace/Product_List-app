@@ -66,7 +66,7 @@ export class ProductCartComponent implements OnInit , AfterViewInit {
         { value: 0, duration: 500, easing: 'easeInOutSine' }
       ],
       loop: true,
-      delay: anime.stagger(100) 
+      delay: anime.stagger(100)
     });
   }
 
@@ -77,6 +77,4 @@ export class ProductCartComponent implements OnInit , AfterViewInit {
   openModal(){
     this.modalService.openModal()
   }
-
-
 }

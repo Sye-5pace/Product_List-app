@@ -14,6 +14,7 @@ import { CartItem, IProduct, ImageType } from '../../store/model/product';
   templateUrl: './product-card.component.html',
   styleUrls: ['./product-card.component.css']
 })
+
 export class ProductCardComponent implements OnInit, AfterViewInit, OnDestroy {
   product$!: Observable<IProduct[]>;
   error$!: Observable<any>;
@@ -34,18 +35,16 @@ export class ProductCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.productFacade.loadProducts();
 
-    // Initialize addTrigger and cartCounts arrays based on product count
+
     this.product$.pipe(takeUntil(this.unsubscribe$)).subscribe((products) => {
       this.addTrigger = new Array(products.length).fill(false);
       this.cartCounts = new Array(products.length).fill(0);
     });
 
-    // Track changes in cart and update cartCounts accordingly
+
     this.carts$ = this.productFacade.carts$;
     this.carts$.pipe(takeUntil(this.unsubscribe$)).subscribe((cartItems) => {
-      // Reset cartCounts for all products first
       this.cartCounts = this.cartCounts.map(() => 0);
-
       cartItems.forEach((cartItem) => {
         const productIndex = this.getProductIndexByName(cartItem.name);
         if (productIndex !== -1) {
